@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * PagBank Split Magento Module.
+ *
+ * Copyright © 2023 PagBank. All rights reserved.
+ *
+ * @author    Bruno Elisei <brunoelisei@o2ti.com>
+ * @license   See LICENSE for license details.
+ */
+-->
+<include xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_include.xsd">
+    <group id="split" translate="label comment" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+        <label>Split Payment</label>
+        <comment>Add a split to payment.</comment>
+        <field id="use_split" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="1">
+            <label>Use Split</label>
+            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+            <config_path>payment/pagbank_splitmagento/use_split</config_path>
+        </field>
+        <field id="data_source" translate="label comment tooltip" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>Data source</label>
+            <comment>Defines where the data for the split will be obtained from.</comment>
+            <tooltip><![CDATA[<p>Using <b>'Configure in this session'</b>.</p><p>In this flow, all transactions will be divided into the accounts you register here in this session. This flow is not suitable for marketplaces, as it does not provide for different sellers for products. Usage example, commissioning the agency for sales.</p><p>Using <b>'Configure from other modules'</b>.</p><p>In this flow there is a need for additional modules, this flow it is ideal for marketplace stores, where each product can be from a different seller. Usage example, stores using Marketplace/Multivendor solutions.</p>]]></tooltip>
+            <source_model>PagBank\SplitMagento\Model\Adminhtml\Source\DataSource</source_model>
+            <config_path>payment/pagbank_splitmagento/data_source</config_path>
+        </field>
+        <field id="use_simple" translate="label comment" type="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>Configure in this session</label>
+            <comment><![CDATA[<p>In this process, all sales will be divided among the accounts registered here.</p><p>The Account Id must be obtained <a href='xxxx'>here</a> by the user who will receive the amount.</p><p>During checkout, if you have more than one seller registered and if you choose to pass on this amount, each of them will receive the freight amount proportional to the number of sellers, the same for sending the interest.</p>]]></comment>
+            <depends>
+                <field id="*/*/*/data_source">simple</field>
+            </depends>
+        </field>
+        <field id="use_custom" translate="label comment" type="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>Configure from other modules</label>
+            <comment><![CDATA[<p>Ideal solution for those who use additional modules to create a Marketplace.</p><p>Discover the modules already supported <a href='https://github.com/pagseguro/split-magento/wiki/03---M%C3%B3dulos-de-Terceiro'>here</a>.</p>]]></comment>
+            <depends>
+                <field id="*/*/*/data_source">custom</field>
+            </depends>
+        </field>
+        <field id="sub_sellers" translate="label comment tooltip" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
+            <label>Sub Seller Options</label>
+            <comment>Define entities and use commissioning rules.</comment>
+            <tooltip>The sum of all commissions cannot exceed 100% of the purchase price.</tooltip>
+            <frontend_model>PagBank\SplitMagento\Block\Adminhtml\Form\Field\AddSplitOptions</frontend_model>
+            <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+            <config_path>payment/pagbank_splitmagento/sub_sellers</config_path>
+            <depends>
+                <field id="*/*/*/data_source">simple</field>
+            </depends>
+        </field>
+    </group>
+</include>

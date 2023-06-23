@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * PagBank Split Magento Module.
+ *
+ * Copyright © 2023 PagBank. All rights reserved.
+ *
+ * @author    Bruno Elisei <brunoelisei@o2ti.com>
+ * @license   See LICENSE for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="PagBank_SplitMagento" setup_version="100.2.0">
+        <sequence>
+            <module name="PagBank_PaymentMagento"/>
+        </sequence>
+    </module>
+</config>

@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * PagBank Split Magento Module.
+ *
+ * Copyright © 2023 PagBank. All rights reserved.
+ *
+ * @author    Bruno Elisei <brunoelisei@o2ti.com>
+ * @license   See LICENSE for license details.
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Cc - Add Split to Request -->
+    <virtualType name="PagBankCcAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="splitBase" xsi:type="string">PagBank\SplitMagento\Gateway\Request\Split\BaseDataRequest</item>
+                <item name="splitRecivers" xsi:type="string">PagBank\SplitMagento\Gateway\Request\Split\ReciversDataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Vault - Add Split to Request -->
+    <virtualType name="PagBankCcVaultRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="splitBase" xsi:type="string">PagBank\SplitMagento\Gateway\Request\Split\BaseDataRequest</item>
+                <item name="splitRecivers" xsi:type="string">PagBank\SplitMagento\Gateway\Request\Split\ReciversDataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
+
+    <!-- Boleto - Add Split to Request -->
+    <virtualType name="PagBankBoletoOrderRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="splitBase" xsi:type="string">PagBank\SplitMagento\Gateway\Request\Split\BaseDataRequest</item>
+                <item name="splitRecivers" xsi:type="string">PagBank\SplitMagento\Gateway\Request\Split\ReciversDataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>    
+</config>
