@@ -27,7 +27,7 @@
         </field>
         <field id="use_simple" translate="label comment" type="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
             <label>Configure in this session</label>
-            <comment><![CDATA[<p>In this process, all sales will be divided among the accounts registered here.</p><p>The Account Id must be obtained <a href='xxxx'>here</a> by the user who will receive the amount.</p><p>During checkout, if you have more than one seller registered and if you choose to pass on this amount, each of them will receive the freight amount proportional to the number of sellers, the same for sending the interest.</p>]]></comment>
+            <comment><![CDATA[<p>In this process, all sales will be divided among the accounts registered here.</p><p>The Account Id must be obtained <a href='https://github.com/pagseguro/split-magento/wiki/04-%E2%80%90-Como-Obter-o-Account-Id'>here</a> by the user who will receive the amount.</p><p>During checkout, if you have more than one seller registered and if you choose to pass on this amount, each of them will receive the freight amount proportional to the number of sellers, the same for sending the interest.</p>]]></comment>
             <depends>
                 <field id="*/*/*/data_source">simple</field>
             </depends>

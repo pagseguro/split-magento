@@ -74,6 +74,8 @@ class ReciversDataRequest implements BuilderInterface
     public function build(array $buildSubject)
     {
         $result = [];
+        $hasSplit = 1;
+
         /** @var PaymentDataObject $paymentDO * */
         $paymentDO = SubjectReader::readPayment($buildSubject);
 
@@ -88,11 +90,29 @@ class ReciversDataRequest implements BuilderInterface
             $secondarys = $this->getSecondarys($buildSubject);
             $primary = $this->getPrimary($secondarys, $buildSubject);
             
-            $recivers = array_merge($primary, $secondarys);
+            if (!$secondarys) {
+                return $result;
+            }
 
-            $result[ChargesDataRequest::CHARGES][]
-                [BaseDataRequest::SPLITS][BaseDataRequest::SPLITS_RECEIVERS] = $recivers;
-                
+            foreach ($secondarys as $subAccounts) {
+                foreach ($subAccounts[BaseDataRequest::RECEIVER_ACCOUNT] as $subs) {
+                    if (isset($subs[BaseDataRequest::RECEIVER_ACCOUNT_ID]) && !$subs[BaseDataRequest::RECEIVER_ACCOUNT_ID]) {
+                        $hasSplit = 0;
+                    }
+                }
+            }
+
+            if ($hasSplit) {
+                $recivers = array_merge($primary, $secondarys);
+
+                $result[ChargesDataRequest::CHARGES][] = [
+                    BaseDataRequest::SPLITS => [
+                        BaseDataRequest::SPLITS_METHOD => 'FIXED',
+                        BaseDataRequest::SPLITS_RECEIVERS => $recivers
+                    ]
+                ];
+            }
+
         }
 
         return $result;

@@ -14,7 +14,6 @@
     <virtualType name="PagBankCcAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
-                <item name="splitBase" xsi:type="string">PagBank\SplitMagento\Gateway\Request\Split\BaseDataRequest</item>
                 <item name="splitRecivers" xsi:type="string">PagBank\SplitMagento\Gateway\Request\Split\ReciversDataRequest</item>
             </argument>
         </arguments>
@@ -24,7 +23,6 @@
     <virtualType name="PagBankCcVaultRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
-                <item name="splitBase" xsi:type="string">PagBank\SplitMagento\Gateway\Request\Split\BaseDataRequest</item>
                 <item name="splitRecivers" xsi:type="string">PagBank\SplitMagento\Gateway\Request\Split\ReciversDataRequest</item>
             </argument>
         </arguments>
@@ -34,7 +32,6 @@
     <virtualType name="PagBankBoletoOrderRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
             <argument name="builders" xsi:type="array">
-                <item name="splitBase" xsi:type="string">PagBank\SplitMagento\Gateway\Request\Split\BaseDataRequest</item>
                 <item name="splitRecivers" xsi:type="string">PagBank\SplitMagento\Gateway\Request\Split\ReciversDataRequest</item>
             </argument>
         </arguments>
