@@ -10,6 +10,12 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- Change Url for Refund -->
+    <type name="PagBank\PaymentMagento\Gateway\Http\Client\RefundClient">
+        <plugin name="custom_refund_url" type="PagBank\SplitMagento\Plugin\Gateway\Http\Client\RefundClientPlugin" sortOrder="1"/>
+    </type>
+
     <!-- Cc - Add Split to Request -->
     <virtualType name="PagBankCcAuthorizationRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
         <arguments>
@@ -35,5 +41,14 @@
                 <item name="splitRecivers" xsi:type="string">PagBank\SplitMagento\Gateway\Request\Split\ReciversDataRequest</item>
             </argument>
         </arguments>
-    </virtualType>    
+    </virtualType>
+
+    <!-- Pix - Add Split to Request -->
+    <virtualType name="PagBankPixOrderRequest" type="Magento\Payment\Gateway\Request\BuilderComposite">
+        <arguments>
+            <argument name="builders" xsi:type="array">
+                <item name="splitRecivers" xsi:type="string">PagBank\SplitMagento\Gateway\Request\Split\Pix\ReciversDataRequest</item>
+            </argument>
+        </arguments>
+    </virtualType>
 </config>
