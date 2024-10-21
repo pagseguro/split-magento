@@ -46,6 +46,31 @@ class BaseDataRequest implements BuilderInterface
     public const RECEIVER_ACCOUNT = 'account';
 
     /**
+     * Receiver Configuration block name.
+     */
+    public const RECEIVER_CONFIGURATION = 'configuration';
+
+    /**
+     * Receiver Liable block name.
+     */
+    public const RECEIVER_LIABLE = 'liable';
+
+    /**
+     * Receiver Charge Back block name.
+     */
+    public const RECEIVER_CHARGEBACK = 'chargeback';
+
+    /**
+     * Receiver Charge Debtor block name.
+     */
+    public const RECEIVER_CHARGE_DEBTOR = 'charge_debtor';
+
+    /**
+     * Receiver Charge Percentage block name.
+     */
+    public const RECEIVER_CHARGE_PERCENTAGE = 'percentage';
+
+    /**
      * Receiver Account Id block name.
      */
     public const RECEIVER_ACCOUNT_ID = 'id';
