@@ -104,6 +104,8 @@ class ReciversDataRequest implements BuilderInterface
 
             if ($hasSplit) {
                 $recivers = array_merge($primary, $secondarys);
+                $recivers = $this->normalizeNodeConfiguration($recivers);
+                $recivers = $this->normalizeReceivers($recivers);
 
                 $result[QrCodeDataRequest::QR_CODES][] = [
                     BaseDataRequest::SPLITS => [
@@ -116,6 +118,71 @@ class ReciversDataRequest implements BuilderInterface
         }
 
         return $result;
+    }
+
+    /**
+     * Normalize Recivers.
+     *
+     * @param array $receivers
+     * @return array
+     */
+    public function normalizeReceivers($receivers)
+    {
+        $normalized = [];
+    
+        foreach ($receivers as $receiver) {
+            $accountId = $receiver['account']['id'];
+            $amountValue = $receiver['amount']['value'];
+            $configuration = isset($receiver['configuration']) ? $receiver['configuration'] : null;
+    
+            if (isset($normalized[$accountId])) {
+                $normalized[$accountId]['amount']['value'] += $amountValue;
+                $normalized[$accountId]['configuration'] = $configuration;
+            } else {
+                $normalized[$accountId] = [
+                    'account' => ['id' => $accountId],
+                    'amount' => ['value' => $amountValue],
+                    'configuration' => $configuration,
+                ];
+            }
+        }
+
+        return array_values($normalized);
+    }
+
+    /**
+     * Normalize Node Configuration.
+     *
+     * @param array  $receivers
+     *
+     * @return array
+     */
+    public function normalizeNodeConfiguration($receivers)
+    {
+        if (!isset($receivers[1]['configuration'])) {
+            return $receivers;
+        }
+
+        $secondNodeConfig = $receivers[1]['configuration'];
+
+        $newPercentage = 100 - $secondNodeConfig['chargeback']['charge_debtor']['percentage'];
+
+        $receivers[0]['configuration'] = [
+            "liable" => !$secondNodeConfig['liable'],
+            "chargeback" => [
+                "charge_debtor" => [
+                    "percentage" => $newPercentage
+                ]
+            ]
+        ];
+
+        if (isset($receivers[0]['configuration']['chargeback']['charge_debtor']['percentage']) &&
+            $receivers[0]['configuration']['chargeback']['charge_debtor']['percentage'] < 0) {
+            $receivers[0]['configuration']['chargeback']['charge_debtor']['percentage'] =
+                abs($receivers[0]['configuration']['chargeback']['charge_debtor']['percentage']);
+        }
+
+        return $receivers;
     }
 
     /**
@@ -152,6 +219,14 @@ class ReciversDataRequest implements BuilderInterface
                     ],
                     BaseDataRequest::RECEIVER_AMOUNT => [
                         BaseDataRequest::RECEIVER_AMOUNT_VALUE => $this->config->formatPrice($amountForSubSeller),
+                    ],
+                    BaseDataRequest::RECEIVER_CONFIGURATION => [
+                        BaseDataRequest::RECEIVER_LIABLE => (bool) $subSellerConfig['liable'],
+                        BaseDataRequest::RECEIVER_CHARGEBACK => [
+                            BaseDataRequest::RECEIVER_CHARGE_DEBTOR => [
+                                BaseDataRequest::RECEIVER_CHARGE_PERCENTAGE => (int) $subSellerConfig['charge_back']
+                            ]
+                        ],
                     ],
                 ];
             }

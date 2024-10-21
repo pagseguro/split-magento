@@ -41,8 +41,8 @@
         </field>
         <field id="sub_sellers" translate="label comment tooltip" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1" canRestore="0">
             <label>Sub Seller Options</label>
-            <comment>Define entities and use commissioning rules.</comment>
-            <tooltip>The sum of all commissions cannot exceed 100% of the purchase price.</tooltip>
+            <comment><![CDATA[<p>Define entities and use commissioning rules.</p>]]></comment>
+            <tooltip><![CDATA[<p>The sum of all commissions cannot exceed 100% of the purchase price.<p>¹ Defines the commission amount retained.</p><p>² Defines whether the seller's data will be communicated to the card issuing bank.</p><p>³ - Defines whether the seller is responsible for the Charge Back.</p><p>⁴ - Defines whether the seller will receive the interest.</p><p>⁵ Defines whether the seller will receive the shipping cost.</p>]]></tooltip>
             <frontend_model>PagBank\SplitMagento\Block\Adminhtml\Form\Field\AddSplitOptions</frontend_model>
             <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
             <config_path>payment/pagbank_splitmagento/sub_sellers</config_path>
